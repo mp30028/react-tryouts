@@ -1,55 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from "react-router-dom";
-import { getById } from './data/PeopleData'
+import React, { useState, useEffect } from 'react';
 import '../css/Zonesoft.css';
 
 export function PersonEdit(props) {
-	const params = useParams();
-	const emptyPerson = {id:0, firstname:'', lastname:'', dateOfBirth: ''};
-	const [fetchedPerson, setFetchedPerson] = useState(emptyPerson);
-	let [person, setPerson] = useState(fetchedPerson);
-	console.log("[PersonEdit] params.id=", params.id);
-
-	const fetchPerson = useCallback(
-		() => {
-			const  getPersonId = () => { 
-				const returnValue = params.id ? parseInt(params.id) : 0;
-				return returnValue;
-			};
-			
-			
-			const personId = getPersonId();
-			if(personId){
-				const justFetchedPerson = getById(personId);
-				if(justFetchedPerson){
-					setFetchedPerson(justFetchedPerson);
-				}
-			}
-			console.log("[PersonEdit - fetchPerson] personId=", personId)
-		},
-		[params.id]
-	)
-	
-	
-	useEffect(fetchPerson,	[fetchPerson])
-	
+	const emptyPerson =  {id:0, firstname:'', lastname:'', dateOfBirth: ''};
+	console.log("[PersonEdit] props.selectedPerson=", props.selectedPerson);
+	let [person, setPerson] = useState(emptyPerson);
+	console.log("[PersonEdit] person)=", person);
 	
 	useEffect(
 		() =>{
-			if (fetchedPerson){
-				setPerson(fetchedPerson)
-			}
-			console.log("[PersonEdit - useEffect[fetchedPerson]] fetchedPerson=", fetchedPerson);
+			setPerson(props.selectedPerson);
 		},
-		[fetchedPerson]
+		[props.selectedPerson]
 	)
-	
-	
-	
-
-	
-
-
 	
 	const updatePerson = (event) => {
 		const {name, value} = event.target;
@@ -60,7 +23,6 @@ export function PersonEdit(props) {
 		event.preventDefault();
 		props.updatePersons(event.target.value, person);
 	}
-	
 	
 	return(
 		<div style={{padding: "1rem"}}>
