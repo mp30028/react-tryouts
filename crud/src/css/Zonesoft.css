@@ -18,9 +18,9 @@ table.zsft-table th.id {
 }
 
 table.zsft-table td {
-/* 	border-style: solid; */
-/* 	border-color: grey; */
-/* 	border-width: 1pt; */
+	border-style: solid;
+	border-color: grey;
+	border-width: 1pt;
 }
 
 table.zsft-table th {

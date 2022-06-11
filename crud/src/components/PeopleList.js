@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { getAll } from './data/PeopleData';
-import { Route, Routes } from 'react-router-dom';
+import {Outlet, Route, Routes } from 'react-router-dom';
 import '../css/Zonesoft.css';
 import{PersonEdit} from './PersonEdit';
 
@@ -10,19 +10,17 @@ export function PeopleList() {
 	const navigate = useNavigate();
 	
 	const handleSelection = (event) => {
-//		alert(event.target.value);
-//    	event.preventDefault();
-//debugger;
     	navigate("edit/" + event.target.value, { replace: true });
-//    	navigate("edit/" + event.target.value);
-//    	navigate(0);
+	}
+	
+	const updatePerson = (updateType, person) => {
+		console.log("[PeopleList.updatePerson] updateType=", updateType, ". person=", person);
+//		alert(updateType);
+//		alert(person.lastname);
 	}
 
 	return (
-		<main>
-		<Routes>
-			<Route path="edit/:id" element={<PersonEdit />} />
-		</Routes>
+		<div style={{ display: "flex" }}>
 			<nav className="zsft-explorer">
 				<table className="zsft-table">
 					<thead>
@@ -50,6 +48,10 @@ export function PeopleList() {
 					</tbody>
 				</table>
 			</nav>
-		</main>
+			<Routes>
+				<Route path="edit/:id" element={<PersonEdit updatePerson={updatePerson}/>} />
+			</Routes>
+			<Outlet />
+		</div>
 	);
 }
