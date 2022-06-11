@@ -13,10 +13,18 @@ export function PeopleList() {
     	navigate("edit/" + event.target.value, { replace: true });
 	}
 	
-	const updatePerson = (updateType, person) => {
+	const updatePersons = (updateType, person) => {
 		console.log("[PeopleList.updatePerson] updateType=", updateType, ". person=", person);
-//		alert(updateType);
-//		alert(person.lastname);
+		let newPersons = [];
+//		debugger;
+		if (updateType === 'UPDATE') {
+			newPersons = persons.map(p => { return ((p.id === person.id) ? person : p) });
+		} else if (updateType === 'CREATE') {
+			newPersons = [...persons, person];
+		} else if (updateType === 'DELETE') {
+			newPersons = persons.filter((p) => { return (p.id === person.id ? null : p) })
+		}
+		setPersons(newPersons);
 	}
 
 	return (
@@ -49,7 +57,7 @@ export function PeopleList() {
 				</table>
 			</nav>
 			<Routes>
-				<Route path="edit/:id" element={<PersonEdit updatePerson={updatePerson}/>} />
+				<Route path="edit/:id" element={<PersonEdit updatePersons={updatePersons}/>} />
 			</Routes>
 			<Outlet />
 		</div>

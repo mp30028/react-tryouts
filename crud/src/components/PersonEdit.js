@@ -53,18 +53,12 @@ export function PersonEdit(props) {
 	
 	const updatePerson = (event) => {
 		const {name, value} = event.target;
-//		console.log("[PersonEdit.updatePerson]  {name, value}",  {name, value});
 		setPerson({...person, [name]:value})
-//		person = {...person, [name]:value};
 	}
 	
 	const handleSubmit = (event) =>{
 		event.preventDefault();
-//		alert(event.target.value);
-//		if (!person.firstname || !person.lastname) return
-//
-		props.updatePerson(event.target.value, person);
-//		setPerson(emptyPerson);
+		props.updatePersons(event.target.value, person);
 	}
 	
 	
@@ -99,7 +93,7 @@ export function PersonEdit(props) {
 						</tr>
 						<tr>
 							<td colSpan="2" style={{textAlign:"right"}}>
-								<button type="submit" onClick={handleSubmit} value="SAVE">Save</button>
+								<button type="submit" onClick={handleSubmit} value="UPDATE">Save</button>
 								<button type="submit" value="CANCEL">Cancel</button>
 							</td>
 						</tr>
