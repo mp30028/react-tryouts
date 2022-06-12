@@ -16,7 +16,12 @@ export function PersonEdit(props) {
 	
 	const updatePerson = (event) => {
 		const {name, value} = event.target;
-		setPerson({...person, [name]:value})
+		if (name === 'id'){
+			setPerson({...person, [name]:parseInt(value)})	
+		}else{
+			setPerson({...person, [name]:value})
+		}
+		
 	}
 	
 	const handleSubmit = (event) =>{
@@ -55,7 +60,9 @@ export function PersonEdit(props) {
 						</tr>
 						<tr>
 							<td colSpan="2" style={{textAlign:"right"}}>
-								<button type="submit" onClick={handleSubmit} value="UPDATE">Save</button>
+								{(props.action === "EDIT") ? <button type="submit" onClick={handleSubmit} value="DELETE">Delete</button> : "" }
+								{(props.action === "EDIT") ? <button type="submit" onClick={handleSubmit} value="UPDATE">Save</button>: ""}
+								{(props.action === "ADD") ? <button type="submit" onClick={handleSubmit} value="CREATE">Create</button>: ""}					
 								<button type="submit" value="CANCEL">Cancel</button>
 							</td>
 						</tr>
