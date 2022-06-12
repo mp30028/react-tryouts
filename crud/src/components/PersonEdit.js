@@ -1,17 +1,74 @@
-import React, { useState } from 'react';
-import { useParams } from "react-router-dom";
-import { getById } from './data/PeopleData'
+import React, { useState, useEffect } from 'react';
 import '../css/Zonesoft.css';
 
-export function PersonEdit() {
-	const params = useParams();
-	const person = getById(parseInt(params.id));
+export function PersonEdit(props) {
+	const emptyPerson =  {id:0, firstname:'', lastname:'', dateOfBirth: ''};
+	console.log("[PersonEdit] props.selectedPerson=", props.selectedPerson);
+	let [person, setPerson] = useState(emptyPerson);
+	console.log("[PersonEdit] person)=", person);
+	
+	useEffect(
+		() =>{
+			setPerson(props.selectedPerson);
+		},
+		[props.selectedPerson]
+	)
+	
+	const updatePerson = (event) => {
+		const {name, value} = event.target;
+		if (name === 'id'){
+			setPerson({...person, [name]:parseInt(value)})	
+		}else{
+			setPerson({...person, [name]:value})
+		}
+		
+	}
+	
+	const handleSubmit = (event) =>{
+		event.preventDefault();
+		props.updatePersons(event.target.value, person);
+	}
+	
 	return(
-		<main>
-			{person.id}<br/>
-			{person.firstname}<br/>
-			{person.lastname}<br/>
-			{person.dateOfBirth}<br/>
-		</main>
+		<div style={{padding: "1rem"}}>
+			<form onSubmit={handleSubmit}>
+				<table className="zsft-table">
+					<tbody>
+						<tr>
+							<th className="id">Person ID</th>
+							<td>
+								<input type="text" name="id" value={person.id} onChange = {updatePerson}/>
+							</td>
+						</tr>
+						<tr>
+							<th className="id">Firstname</th>
+							<td>
+								<input type="text" name="firstname" value={person.firstname} onChange = {updatePerson} />
+							</td>
+						</tr>
+						<tr>
+							<th className="id">Lastname</th>
+							<td>
+								<input type="text" name="lastname" value={person.lastname} onChange = {updatePerson} />
+							</td>
+						</tr>
+						<tr>
+							<th className="id">Date of Birth</th>
+							<td>
+								<input type="text" name="dateOfBirth" value={person.dateOfBirth} onChange = {updatePerson} />
+							</td>
+						</tr>
+						<tr>
+							<td colSpan="2" style={{textAlign:"right"}}>
+								{(props.action === "EDIT") ? <button type="submit" onClick={handleSubmit} value="DELETE">Delete</button> : "" }
+								{(props.action === "EDIT") ? <button type="submit" onClick={handleSubmit} value="UPDATE">Save</button>: ""}
+								{(props.action === "ADD") ? <button type="submit" onClick={handleSubmit} value="CREATE">Create</button>: ""}					
+								<button type="submit" value="CANCEL">Cancel</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
 	)
 }
